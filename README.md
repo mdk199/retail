@@ -1,6 +1,6 @@
                                                # Target Interview
 
-## __Case Study:  myRetail RESTful service__
+## __Case Study:  myRetail service__
 
 myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 stores across the east coast. myRetail wants to make its internal data available to any number of client devices, from retail.com to native mobile apps. 
 
@@ -49,8 +49,8 @@ Declarative REST Client: Feign creates a dynamic implementation of an interface 
 	https://cloud.spring.io/spring-cloud-netflix/ 
 3. MongoDB:
 	https://www.mongodb.com/what-is-mongodb 
-4. Maven:
-	https://maven.apache.org/ 
+4. Gradle:
+	https://gradle.org/guides/
 5. Mokito/Junit:
 	http://site.mockito.org/ 
 	
