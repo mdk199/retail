@@ -6,6 +6,6 @@ server:
 spring: 
   data:
     mongodb:
-      host: ${MONGODB_URI:localhost}
+      host: localhost
       port: 27017
       database: productdb
