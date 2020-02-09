@@ -22,13 +22,13 @@ public class InitDbSeederService {
 
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepostory;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -81,7 +81,7 @@ public class InitDbSeederService {
 			this.productRepository.saveAll(products);
 		}
 	}
-	
+
 	/**
 	 * To add the user accounts with Roles.
 	 */
@@ -89,39 +89,39 @@ public class InitDbSeederService {
 		if(userRepository != null) {
 			// delete previous data
 			this.roleRepostory.deleteAll();
-			
+
 			Role roleUser = new Role("1","USER");
 			roleRepostory.save(roleUser);
-			
+
 			Role roleAdmin = new Role("2","ADMIN");
 			roleRepostory.save(roleAdmin);
-			
-			
+
+
 			//*********Add user and admin role for rohit*****************************
 			List<Role> roles2 = new ArrayList<>();
 			roles2.add(roleUser);
 			roles2.add(roleAdmin);
-			
+
 			List<User> accounts = new ArrayList<>();
-			
+
 			User account1 = new User("1","admin",passwordEncoder.encode("admin"),roles2);
 			accounts.add(account1);
 			//*******************************************
-			
+
 			//*********Add only user role for Monika and Vivaan**********************************
 			List<Role> roles1 = new ArrayList<>();
 			roles1.add(roleUser);
 			User account2 = new User("2","normaluser",passwordEncoder.encode("normalUser"),roles1);
 			accounts.add(account2);
-			
+
 			User account3 = new User("3","dbuser",passwordEncoder.encode("dbuser"),roles1);
 			accounts.add(account3);
 			//*******************************************
-			
+
 			// delete previous data
 			this.userRepository.deleteAll();
-			
-			//Save 
+
+			//Save
 			this.userRepository.saveAll(accounts);
 		}
 	}

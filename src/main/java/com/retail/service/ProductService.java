@@ -43,7 +43,7 @@ public class ProductService {
 		Product product = productRepository.getProductByproductId(productId);
 		// From external API
 		product.setTitle(this.getTitleForProduct(productId));
-		logger.info("Title from RFemote API   "+ product.getTitle());
+		logger.info("Title from Remote API   "+ product.getTitle());
 		return product;
 	}
 	
