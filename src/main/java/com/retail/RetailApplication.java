@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 public class RetailApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RetailApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(RetailApplication.class, args);
+  }
 
 }

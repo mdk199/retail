@@ -5,13 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.retail.entity.Price;
 import com.retail.entity.Product;
 import com.retail.external.client.ProductInfoClient;
 import com.retail.external.client.ProductInfoClientMock;
 import com.retail.repository.ProductRepository;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Currency;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,12 +51,12 @@ public class ProductServiceTest {
    */
   @Test
   public void getProductByIdTest() throws Exception {
-    // Repository data from mock
-    Map<String, String> currency = new HashMap<>();
-    currency.put("value", "50");
-    currency.put("currency_code", "USD");
-    Product mockProduct = new Product("13860428", "", currency);
-    System.out.println(productrepositoryMock);
+    Product mockProduct = Product.builder().productId("13860428")
+        .currentPrice(Price.builder()
+            .currency(Currency.getInstance("USD"))
+            .value(50d)
+            .build())
+        .build();
     Mockito.when(productrepositoryMock.getProductByproductId(Mockito.anyString()))
         .thenReturn(mockProduct);
 
@@ -66,11 +67,12 @@ public class ProductServiceTest {
     Product actualProduct = productService.getProductById("13860428");
 
     // Expected Result
-    Map<String, String> currency1 = new HashMap<>();
-    currency.put("value", "50");
-    currency.put("currency_code", "USD");
-    Product expectedProduct = new Product("13860428", "The Big Lebowski (Blu-ray)", currency1);
-
+    Product expectedProduct = Product.builder().productId("13860428")
+        .currentPrice(Price.builder()
+            .currency(Currency.getInstance("USD"))
+            .value(50d)
+            .build())
+        .build();
     assertEquals(expectedProduct.getProductId(), actualProduct.getProductId());
   }
 
@@ -80,16 +82,15 @@ public class ProductServiceTest {
    */
   @Test
   public void getProductInfoTest_wrongProductId() throws Exception {
-    Assertions.assertThrows(NullPointerException.class, () -> {
-      Map<String, String> currency = new HashMap<>();
-      currency.put("value", "50");
-      currency.put("currency_code", "USD");
-      Product mockProduct = new Product("13860428", "", currency);
+    Assertions.assertThrows(ExecutionException.class, () -> {
+      Product mockProduct = Product.builder().productId("13860428")
+          .currentPrice(Price.builder()
+              .currency(Currency.getInstance("USD"))
+              .value(50d)
+              .build())
+          .build();
       Mockito.when(productrepositoryMock.getProductByproductId(Mockito.anyString()))
           .thenReturn(mockProduct);
-
-      // Mockito.when(productrepositoryMock.getProductByproductId(Mockito.anyString())).thenThrow(new
-      // Exception());
       productService.getProductById("12345678");
     });
   }

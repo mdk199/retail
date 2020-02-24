@@ -1,6 +1,6 @@
 # Application Port
 server: 
-  port: ${PORT:8080}
+  port: ${PORT:3456}
   
 # Mongo Db configuration
 spring: 
