@@ -34,10 +34,10 @@ BONUS: Accepts an HTTP PUT request at the same path (/products/{id}), containing
 </ol>
 All the end points are totally secure in this application. I have implemented basic security and method level security as well. Update resource can be accessed by admin/admin user only.
 
-                                   Method               Request                   Credentials
-                                     GET              /products/{id}              [SECURE -- normaluser/normaluser]
-                                     PUT              /products/{id}              [SECURE -- admin/admin]
-					 GET              /products                   [NOT SECURE]
+                                   Method               Request                
+                                     GET              /products/{id}             
+                                     PUT              /products/{id}            
+					                 GET              /products                   
 
 ###### __Technology Stack:__
 
@@ -64,32 +64,8 @@ b) Clone the git project from git-bash or command prompt (You must have git setu
 4. Import the project into intellij –   File->import
 
 Run mongo DB from the command prompt.  And test  ---  http://localhost:27017/  (default port)
-Go to the project folder and trigger the command:
-
-###### __Check the http Request:__
-
-### Secure API
-The end point of this application is fully secure. There are 3 users in this application.
-1. admin/admin   --- Can update price information and get the product by prodctId. 
-2. normaluser/normaluser  --  get the product by productId.
-3. dbuser/dbuser  -- get the product by productId.
+Go to the project folder and trigger the command: ./gradlew run
 
 ###  Swagger2 documentation path
 http://localhost:8080/swagger-ui.html
-
-GET: With valid product but no credentials (http://localhost:8080/products/13860428)
-![image](https://user-images.githubusercontent.com/12552208/31319867-e3139ece-ac38-11e7-88b1-4b4fdd0e0c73.png)
-
-GET: with valid product and admin credentials (http://localhost:8080/products/13860428)
-![image](https://user-images.githubusercontent.com/12552208/31319897-71a08440-ac39-11e7-8c1c-31bde9486d42.png)
-
-GET: Wrong product ID and valid credentials admin/admin (http://localhost:8080/products/13860428)
-![image](https://user-images.githubusercontent.com/12552208/31319926-edc74194-ac39-11e7-914e-656dbf03893d.png)
-
-PUT Request: With Valid product Idand admin/admin credentials  (http://localhost:8080/products/13860428)
-![image](https://user-images.githubusercontent.com/12552208/31319946-3e3a1250-ac3a-11e7-8b69-d99e1a2a72d8.png)
-
-PUT Request: With Valid product Id and normaluser/normaluser credentials  (http://localhost:8080/products/13860428)
-![image](https://user-images.githubusercontent.com/12552208/31319968-8a0a3cd2-ac3a-11e7-956b-e8a39fb82256.png)
-
 

@@ -17,5 +17,5 @@ public interface ProductInfoClient {
    * @return
    */
   @RequestMapping(method = RequestMethod.GET, produces = "application/json", consumes = "application/json", value = "{productId}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics")
-  public ResponseEntity<String> getProductInfoById(@PathVariable("productId") String productId);
+  ResponseEntity<String> getProductInfoById(@PathVariable("productId") String productId);
 }
