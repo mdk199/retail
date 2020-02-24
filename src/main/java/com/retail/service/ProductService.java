@@ -7,7 +7,13 @@ import com.retail.entity.Product;
 import com.retail.external.client.ProductInfoClient;
 import com.retail.repository.ProductRepository;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +34,10 @@ public class ProductService {
   @Autowired
   private ProductRepository productRepository;
 
-  public ProductService() {
+  private ExecutorService executorService;
 
+  public ProductService() {
+    executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
   }
 
   /**
@@ -42,11 +50,25 @@ public class ProductService {
   public Product getProductById(String productId)
       throws Exception {
     // From application DB
-    Product product = productRepository.getProductByproductId(productId);
-    // From external API
-    product.setTitle(this.getTitleForProduct(productId));
-    logger.info("Title from Remote API   " + product.getTitle());
-    return product;
+    final CompletableFuture<Product> dbProductCall = CompletableFuture
+        .supplyAsync(() -> productRepository.getProductByproductId(productId));
+    // From ProductInfoClient
+    final CompletableFuture<String> titleCall = CompletableFuture.supplyAsync(() -> {
+      try {
+        return this.getTitleForProduct(productId);
+      } catch (Exception e) {
+        logger.error("Error while fetching title for: {}", productId);
+        throw new RuntimeException();
+      }
+    });
+
+    final CompletableFuture<Product> productCompletableFuture = dbProductCall
+        .thenCombineAsync(titleCall, (product, title) -> {
+          product.setTitle(title);
+          return product;
+        });
+
+    return productCompletableFuture.get();
   }
 
   /**

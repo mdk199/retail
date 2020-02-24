@@ -12,6 +12,7 @@ import com.retail.external.client.ProductInfoClientMock;
 import com.retail.repository.ProductRepository;
 import java.io.IOException;
 import java.util.Currency;
+import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,7 +82,7 @@ public class ProductServiceTest {
    */
   @Test
   public void getProductInfoTest_wrongProductId() throws Exception {
-    Assertions.assertThrows(NullPointerException.class, () -> {
+    Assertions.assertThrows(ExecutionException.class, () -> {
       Product mockProduct = Product.builder().productId("13860428")
           .currentPrice(Price.builder()
               .currency(Currency.getInstance("USD"))
